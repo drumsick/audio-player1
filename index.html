@@ -3,119 +3,132 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Audio Playlist</title>
+  <title>Audio Playlist (All Tracks)</title>
   <style>
     :root{--bg:#f7f7f7;--card:#fff;--muted:#666}
     html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-    .wrap{max-width:900px;margin:36px auto;padding:18px}
+    .wrap{max-width:920px;margin:36px auto;padding:18px}
     .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.06)}
     h1{margin:0 0 12px 0;font-size:1.25rem}
     #player{width:100%;margin-top:8px}
-    ul.playlist{list-style:none;margin:12px 0 0 0;padding:0;max-height:56vh;overflow:auto}
+    ul.playlist{list-style:none;margin:12px 0 0 0;padding:0;max-height:60vh;overflow:auto}
     ul.playlist li{padding:10px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:12px}
     ul.playlist li button{padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#f6f6f6;cursor:pointer}
     ul.playlist li .name{flex:1}
     .info{color:var(--muted);font-size:0.9rem;margin-top:8px}
     .error{color:#b00}
-    .loading{color:#333}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Audio Playlist</h1>
-      <div class="info">Click a track to load it into the player below. If playback fails in WeChat, see notes at the bottom.</div>
+      <h1>All Tracks</h1>
+      <div class="info">Click a track to load it into the player below. This page uses hardcoded file list (no GitHub API) for reliability.</div>
 
-      <audio id="player" controls preload="none">
-        Your browser does not support the audio element.
-      </audio>
+      <audio id="player" controls preload="none"></audio>
 
       <ul class="playlist" id="playlist"></ul>
 
       <div class="info" id="status"></div>
 
       <div style="margin-top:12px;font-size:0.9rem;color:var(--muted)">
-        Notes: Files are served from this GitHub repository. For best compatibility in WeChat/mobile browsers, consider placing files at the repo root with simple ASCII filenames (example: lesson-01.mp3).
+        Note: For best compatibility (WeChat/mobile), consider placing files at the repository root with simple ASCII filenames. If playback fails, try tapping the play button or open the raw file URL directly.
       </div>
     </div>
   </div>
 
   <script>
-    const owner = 'drumsick';
-    const repo = 'audio-player1';
-    // Try the nested folder first (as currently shown in the repo), then fall back to a single folder.
-    const candidatePaths = [
-      '44本 音频/44本 音频',
-      '44本 音频',
-      ''
+    const baseRaw = 'https://raw.githubusercontent.com/drumsick/audio-player1/main/';
+    // Hardcoded list of all 44 tracks (exact filenames as in the repository)
+    const tracks = [
+"RAZ~1 My Body.mp3",
+"RAZ~10 Mom and I.mp3",
+"RAZ~11 Dad and I.mp3",
+"RAZ~12 My Room.mp3",
+"RAZ~13  All Kinds of Faces.mp3",
+"RAZ~14 All kinds of buttons(1).mp3",
+"RAZ~15  Athletes.mp3",
+"RAZ~16 Shapes in Nature.mp3",
+"RAZ~17 I See My Colors.mp3",
+"RAZ~18 I Set the Table.mp3",
+"RAZ~19 Sundae Time.mp3",
+"RAZ~2 My Face.mp3",
+"RAZ~20 What I Like.mp3",
+"RAZ~21 I Love Flowers.mp3",
+"RAZ~22 Bedtime Counting.mp3",
+"RAZ~23 I Dream.mp3",
+"RAZ~24  Building with Blocks.mp3",
+"RAZ~25 Getting Dressed.mp3",
+"RAZ~26 My Little Brother.mp3",
+"RAZ~27 The Mall.mp3",
+"RAZ~28 Fun in the Water.mp3",
+"RAZ~29 What Makes Me Happy.mp3",
+"RAZ~3 The Forest.mp3",
+"RAZ~30 Maria Goes to School.mp3",
+"RAZ~31 Carlos Counts Kittens.mp3",
+"RAZ~32 Who Has It.mp3",
+"RAZ~33 He Runs.mp3",
+"RAZ~34 Oh, Raccoon.mp3",
+"RAZ~35 Hamster Home.mp3",
+"RAZ~36 The Big Cat.mp3",
+"RAZ~37 What Lives Here.mp3",
+"RAZ~38 Car Parts.mp3",
+"RAZ~39 This Feels.mp3",
+"RAZ~4 My House.mp3",
+"RAZ~40 I Can.mp3",
+"RAZ~41  My Dog.mp3",
+"RAZ~42 Going Places.mp3",
+"RAZ~43 Fruit Colors.mp3",
+"RAZ~44  Write.mp3",
+"RAZ~5 Our Apartment Building.mp3",
+"RAZ~6 Bird Colors.mp3",
+"RAZ~7 Nice, Not Nice.mp3",
+"RAZ~8 Safe, Not Safe.mp3",
+"RAZ~9 These Shoes.mp3"
     ];
 
     const playlistEl = document.getElementById('playlist');
     const statusEl = document.getElementById('status');
     const player = document.getElementById('player');
 
-    async function tryLoad() {
-      statusEl.textContent = 'Loading playlist…';
-      for (const p of candidatePaths) {
-        const encoded = encodeURIComponent(p).replace(/%2F/g, '/');
-        const api = `https://api.github.com/repos/${owner}/${repo}/contents/${encoded}`;
-        try {
-          const res = await fetch(api);
-          if (!res.ok) {
-            // try next
-            continue;
-          }
-          const json = await res.json();
-          // json may be a file object or an array for directories
-          const items = Array.isArray(json) ? json : [json];
-          const mp3s = items.filter(it => it.type === 'file' && it.name.toLowerCase().endsWith('.mp3'))
-                            .sort((a,b)=>a.name.localeCompare(b.name));
-          if (mp3s.length === 0) {
-            // no mp3s found here, try next path
-            continue;
-          }
-          // We found mp3s in this path — render playlist
-          statusEl.textContent = '';
-          mp3s.forEach((f,idx)=>{
-            const li = document.createElement('li');
-            const btn = document.createElement('button');
-            btn.textContent = 'Play';
-            btn.onclick = ()=>{ loadAndPlay(f.download_url, f.name); };
-            const name = document.createElement('div');
-            name.className = 'name';
-            name.textContent = f.name;
-            li.appendChild(btn);
-            li.appendChild(name);
-            playlistEl.appendChild(li);
-            // allow double-click on name to play
-            name.ondblclick = ()=>{ loadAndPlay(f.download_url, f.name); };
-          });
-          // auto-select first track
-          if (mp3s[0]) loadTrackPreview(mp3s[0]);
-          return; // done
-        } catch (err) {
-          console.error('fetch error', err);
-          continue; // try next candidate
-        }
-      }
-      statusEl.innerHTML = '<span class="error">No MP3 files found in expected folders. You can either move one MP3 to the repository root (e.g. lesson-01.mp3) or ensure the folder names are correct.</span>';
+    function makeUrl(name) {
+      return baseRaw + encodeURIComponent(name);
     }
 
-    function loadAndPlay(url, name) {
+    function render() {
+      playlistEl.innerHTML = '';
+      tracks.forEach((name, idx) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = 'Play';
+        btn.onclick = () => { loadAndPlay(name); };
+        const nm = document.createElement('div');
+        nm.className = 'name';
+        nm.textContent = name;
+        li.appendChild(btn);
+        li.appendChild(nm);
+        playlistEl.appendChild(li);
+        nm.ondblclick = () => { loadAndPlay(name); };
+      });
+      if (tracks.length > 0) loadTrack(tracks[0]);
+    }
+
+    function loadTrack(name) {
+      const url = makeUrl(name);
+      player.src = url;
+      statusEl.textContent = `Loaded: ${name}`;
+    }
+
+    function loadAndPlay(name) {
+      const url = makeUrl(name);
       player.src = url;
       player.play().catch(()=>{
-        // autoplay often blocked — just load and let user press play
-        statusEl.textContent = `Loaded: ${name}. Tap play if it does not start automatically.`;
+        statusEl.textContent = `Loaded: ${name}. Tap play if it doesn't start automatically.`;
       });
       statusEl.textContent = `Loaded: ${name}`;
     }
 
-    function loadTrackPreview(file) {
-      player.src = file.download_url;
-      statusEl.textContent = `Loaded: ${file.name}`;
-    }
-
-    tryLoad();
+    render();
   </script>
 </body>
 </html>
