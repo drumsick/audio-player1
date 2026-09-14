@@ -1,1 +1,29 @@
-https://github.com/drumsick/audio-player1/new/main
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Listen</title>
+  <style>
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;background:#f7f7f7}
+    .card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);width:100%;max-width:720px}
+    audio{width:100%}
+    .title{margin-bottom:12px;font-weight:600}
+    .info{margin-top:10px;color:#666;font-size:0.9rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="title">Audio Player</div>
+      <!-- Replace 'lesson-01.mp3' with the exact filename you upload if different -->
+      <audio controls preload="metadata">
+        <source src="lesson-01.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <div class="info">Tap play to listen.</div>
+    </div>
+  </div>
+</body>
+</html>
