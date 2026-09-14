@@ -3,132 +3,73 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Audio Playlist (All Tracks)</title>
+  <title>All Tracks (Static List)</title>
   <style>
-    :root{--bg:#f7f7f7;--card:#fff;--muted:#666}
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
-    .wrap{max-width:920px;margin:36px auto;padding:18px}
-    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.06)}
-    h1{margin:0 0 12px 0;font-size:1.25rem}
-    #player{width:100%;margin-top:8px}
-    ul.playlist{list-style:none;margin:12px 0 0 0;padding:0;max-height:60vh;overflow:auto}
-    ul.playlist li{padding:10px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:12px}
-    ul.playlist li button{padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#f6f6f6;cursor:pointer}
-    ul.playlist li .name{flex:1}
-    .info{color:var(--muted);font-size:0.9rem;margin-top:8px}
-    .error{color:#b00}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f7f7f7;margin:0;padding:24px}
+    .card{max-width:980px;margin:0 auto;background:#fff;border-radius:10px;padding:18px;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+    h1{margin:0 0 12px}
+    .track{padding:12px;border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column;gap:8px}
+    .name{font-weight:600}
+    .note{color:#666;font-size:0.9rem;margin-top:8px}
+    audio{width:100%}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>All Tracks</h1>
-      <div class="info">Click a track to load it into the player below. This page uses hardcoded file list (no GitHub API) for reliability.</div>
+  <div class="card">
+    <h1>All Tracks (44)</h1>
+    <div class="note">This page contains a static list of all 44 MP3 files. Click Play to stream inline. If playback downloads instead of playing on some mobile clients, try opening the URL in the system browser or move the file to the repo root with a simple ASCII filename.</div>
 
-      <audio id="player" controls preload="none"></audio>
+    <!-- Static list of all 44 tracks. URLs point to the raw.githubusercontent.com location. -->
 
-      <ul class="playlist" id="playlist"></ul>
+    <div id="tracks">
 
-      <div class="info" id="status"></div>
+<div class="track"><div class="name">RAZ~1 My Body.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~1%20My%20Body.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~10 Mom and I.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~10%20Mom%20and%20I.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~11 Dad and I.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~11%20Dad%20and%20I.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~12 My Room.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~12%20My%20Room.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~13  All Kinds of Faces.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~13%20%20All%20Kinds%20of%20Faces.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~14 All kinds of buttons(1).mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~14%20All%20kinds%20of%20buttons(1).mp3"></audio></div>
+<div class="track"><div class="name">RAZ~15  Athletes.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~15%20%20Athletes.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~16 Shapes in Nature.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~16%20Shapes%20in%20Nature.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~17 I See My Colors.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~17%20I%20See%20My%20Colors.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~18 I Set the Table.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~18%20I%20Set%20the%20Table.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~19 Sundae Time.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~19%20Sundae%20Time.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~2 My Face.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~2%20My%20Face.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~20 What I Like.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~20%20What%20I%20Like.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~21 I Love Flowers.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~21%20I%20Love%20Flowers.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~22 Bedtime Counting.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~22%20Bedtime%20Counting.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~23 I Dream.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~23%20I%20Dream.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~24  Building with Blocks.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~24%20%20%20Building%20with%20Blocks.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~25 Getting Dressed.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~25%20Getting%20Dressed.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~26 My Little Brother.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~26%20My%20Little%20Brother.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~27 The Mall.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~27%20The%20Mall.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~28 Fun in the Water.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~28%20Fun%20in%20the%20Water.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~29 What Makes Me Happy.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~29%20What%20Makes%20Me%20Happy.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~3 The Forest.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~3%20The%20Forest.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~30 Maria Goes to School.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~30%20Maria%20Goes%20to%20School.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~31 Carlos Counts Kittens.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~31%20Carlos%20Counts%20Kittens.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~32 Who Has It.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~32%20Who%20Has%20It.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~33 He Runs.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~33%20He%20Runs.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~34 Oh, Raccoon.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~34%20Oh%2C%20Raccoon.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~35 Hamster Home.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~35%20Hamster%20Home.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~36 The Big Cat.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~36%20The%20Big%20Cat.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~37 What Lives Here.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~37%20What%20Lives%20Here.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~38 Car Parts.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~38%20Car%20Parts.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~39 This Feels.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~39%20This%20Feels.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~4 My House.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~4%20My%20House.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~40 I Can.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~40%20I%20Can.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~41  My Dog.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~41%20%20My%20Dog.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~42 Going Places.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~42%20Going%20Places.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~43 Fruit Colors.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~43%20Fruit%20Colors.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~44  Write.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~44%20%20%20Write.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~5 Our Apartment Building.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~5%20Our%20Apartment%20Building.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~6 Bird Colors.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~6%20Bird%20Colors.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~7 Nice, Not Nice.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~7%20Nice%2C%20Not%20Nice.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~8 Safe, Not Safe.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~8%20Safe%2C%20Not%20Safe.mp3"></audio></div>
+<div class="track"><div class="name">RAZ~9 These Shoes.mp3</div><audio controls preload="none" src="https://raw.githubusercontent.com/drumsick/audio-player1/main/RAZ~9%20These%20Shoes.mp3"></audio></div>
 
-      <div style="margin-top:12px;font-size:0.9rem;color:var(--muted)">
-        Note: For best compatibility (WeChat/mobile), consider placing files at the repository root with simple ASCII filenames. If playback fails, try tapping the play button or open the raw file URL directly.
-      </div>
     </div>
+
   </div>
-
-  <script>
-    const baseRaw = 'https://raw.githubusercontent.com/drumsick/audio-player1/main/';
-    // Hardcoded list of all 44 tracks (exact filenames as in the repository)
-    const tracks = [
-"RAZ~1 My Body.mp3",
-"RAZ~10 Mom and I.mp3",
-"RAZ~11 Dad and I.mp3",
-"RAZ~12 My Room.mp3",
-"RAZ~13  All Kinds of Faces.mp3",
-"RAZ~14 All kinds of buttons(1).mp3",
-"RAZ~15  Athletes.mp3",
-"RAZ~16 Shapes in Nature.mp3",
-"RAZ~17 I See My Colors.mp3",
-"RAZ~18 I Set the Table.mp3",
-"RAZ~19 Sundae Time.mp3",
-"RAZ~2 My Face.mp3",
-"RAZ~20 What I Like.mp3",
-"RAZ~21 I Love Flowers.mp3",
-"RAZ~22 Bedtime Counting.mp3",
-"RAZ~23 I Dream.mp3",
-"RAZ~24  Building with Blocks.mp3",
-"RAZ~25 Getting Dressed.mp3",
-"RAZ~26 My Little Brother.mp3",
-"RAZ~27 The Mall.mp3",
-"RAZ~28 Fun in the Water.mp3",
-"RAZ~29 What Makes Me Happy.mp3",
-"RAZ~3 The Forest.mp3",
-"RAZ~30 Maria Goes to School.mp3",
-"RAZ~31 Carlos Counts Kittens.mp3",
-"RAZ~32 Who Has It.mp3",
-"RAZ~33 He Runs.mp3",
-"RAZ~34 Oh, Raccoon.mp3",
-"RAZ~35 Hamster Home.mp3",
-"RAZ~36 The Big Cat.mp3",
-"RAZ~37 What Lives Here.mp3",
-"RAZ~38 Car Parts.mp3",
-"RAZ~39 This Feels.mp3",
-"RAZ~4 My House.mp3",
-"RAZ~40 I Can.mp3",
-"RAZ~41  My Dog.mp3",
-"RAZ~42 Going Places.mp3",
-"RAZ~43 Fruit Colors.mp3",
-"RAZ~44  Write.mp3",
-"RAZ~5 Our Apartment Building.mp3",
-"RAZ~6 Bird Colors.mp3",
-"RAZ~7 Nice, Not Nice.mp3",
-"RAZ~8 Safe, Not Safe.mp3",
-"RAZ~9 These Shoes.mp3"
-    ];
-
-    const playlistEl = document.getElementById('playlist');
-    const statusEl = document.getElementById('status');
-    const player = document.getElementById('player');
-
-    function makeUrl(name) {
-      return baseRaw + encodeURIComponent(name);
-    }
-
-    function render() {
-      playlistEl.innerHTML = '';
-      tracks.forEach((name, idx) => {
-        const li = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.textContent = 'Play';
-        btn.onclick = () => { loadAndPlay(name); };
-        const nm = document.createElement('div');
-        nm.className = 'name';
-        nm.textContent = name;
-        li.appendChild(btn);
-        li.appendChild(nm);
-        playlistEl.appendChild(li);
-        nm.ondblclick = () => { loadAndPlay(name); };
-      });
-      if (tracks.length > 0) loadTrack(tracks[0]);
-    }
-
-    function loadTrack(name) {
-      const url = makeUrl(name);
-      player.src = url;
-      statusEl.textContent = `Loaded: ${name}`;
-    }
-
-    function loadAndPlay(name) {
-      const url = makeUrl(name);
-      player.src = url;
-      player.play().catch(()=>{
-        statusEl.textContent = `Loaded: ${name}. Tap play if it doesn't start automatically.`;
-      });
-      statusEl.textContent = `Loaded: ${name}`;
-    }
-
-    render();
-  </script>
 </body>
 </html>
