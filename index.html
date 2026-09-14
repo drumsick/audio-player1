@@ -3,27 +3,119 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Listen</title>
+  <title>Audio Playlist</title>
   <style>
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    .wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;background:#f7f7f7}
-    .card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.08);width:100%;max-width:720px}
-    audio{width:100%}
-    .title{margin-bottom:12px;font-weight:600}
-    .info{margin-top:10px;color:#666;font-size:0.9rem}
+    :root{--bg:#f7f7f7;--card:#fff;--muted:#666}
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg)}
+    .wrap{max-width:900px;margin:36px auto;padding:18px}
+    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+    h1{margin:0 0 12px 0;font-size:1.25rem}
+    #player{width:100%;margin-top:8px}
+    ul.playlist{list-style:none;margin:12px 0 0 0;padding:0;max-height:56vh;overflow:auto}
+    ul.playlist li{padding:10px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:12px}
+    ul.playlist li button{padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#f6f6f6;cursor:pointer}
+    ul.playlist li .name{flex:1}
+    .info{color:var(--muted);font-size:0.9rem;margin-top:8px}
+    .error{color:#b00}
+    .loading{color:#333}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <div class="title">Audio Player</div>
-      <!-- This points to the first MP3 currently in your repository folder. -->
-      <audio controls preload="metadata">
-        <source src="44本 音频/44本 音频/RAZ~1 My Body.mp3" type="audio/mpeg">
+      <h1>Audio Playlist</h1>
+      <div class="info">Click a track to load it into the player below. If playback fails in WeChat, see notes at the bottom.</div>
+
+      <audio id="player" controls preload="none">
         Your browser does not support the audio element.
       </audio>
-      <div class="info">Tap play to listen. If playback fails, consider moving or renaming the MP3 to the repository root using a simple ASCII filename (e.g. lesson-01.mp3).</div>
+
+      <ul class="playlist" id="playlist"></ul>
+
+      <div class="info" id="status"></div>
+
+      <div style="margin-top:12px;font-size:0.9rem;color:var(--muted)">
+        Notes: Files are served from this GitHub repository. For best compatibility in WeChat/mobile browsers, consider placing files at the repo root with simple ASCII filenames (example: lesson-01.mp3).
+      </div>
     </div>
   </div>
+
+  <script>
+    const owner = 'drumsick';
+    const repo = 'audio-player1';
+    // Try the nested folder first (as currently shown in the repo), then fall back to a single folder.
+    const candidatePaths = [
+      '44本 音频/44本 音频',
+      '44本 音频',
+      ''
+    ];
+
+    const playlistEl = document.getElementById('playlist');
+    const statusEl = document.getElementById('status');
+    const player = document.getElementById('player');
+
+    async function tryLoad() {
+      statusEl.textContent = 'Loading playlist…';
+      for (const p of candidatePaths) {
+        const encoded = encodeURIComponent(p).replace(/%2F/g, '/');
+        const api = `https://api.github.com/repos/${owner}/${repo}/contents/${encoded}`;
+        try {
+          const res = await fetch(api);
+          if (!res.ok) {
+            // try next
+            continue;
+          }
+          const json = await res.json();
+          // json may be a file object or an array for directories
+          const items = Array.isArray(json) ? json : [json];
+          const mp3s = items.filter(it => it.type === 'file' && it.name.toLowerCase().endsWith('.mp3'))
+                            .sort((a,b)=>a.name.localeCompare(b.name));
+          if (mp3s.length === 0) {
+            // no mp3s found here, try next path
+            continue;
+          }
+          // We found mp3s in this path — render playlist
+          statusEl.textContent = '';
+          mp3s.forEach((f,idx)=>{
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.textContent = 'Play';
+            btn.onclick = ()=>{ loadAndPlay(f.download_url, f.name); };
+            const name = document.createElement('div');
+            name.className = 'name';
+            name.textContent = f.name;
+            li.appendChild(btn);
+            li.appendChild(name);
+            playlistEl.appendChild(li);
+            // allow double-click on name to play
+            name.ondblclick = ()=>{ loadAndPlay(f.download_url, f.name); };
+          });
+          // auto-select first track
+          if (mp3s[0]) loadTrackPreview(mp3s[0]);
+          return; // done
+        } catch (err) {
+          console.error('fetch error', err);
+          continue; // try next candidate
+        }
+      }
+      statusEl.innerHTML = '<span class="error">No MP3 files found in expected folders. You can either move one MP3 to the repository root (e.g. lesson-01.mp3) or ensure the folder names are correct.</span>';
+    }
+
+    function loadAndPlay(url, name) {
+      player.src = url;
+      player.play().catch(()=>{
+        // autoplay often blocked — just load and let user press play
+        statusEl.textContent = `Loaded: ${name}. Tap play if it does not start automatically.`;
+      });
+      statusEl.textContent = `Loaded: ${name}`;
+    }
+
+    function loadTrackPreview(file) {
+      player.src = file.download_url;
+      statusEl.textContent = `Loaded: ${file.name}`;
+    }
+
+    tryLoad();
+  </script>
 </body>
 </html>
