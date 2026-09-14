@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url=/audio-player1/">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Redirecting…</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f7f7f7;color:#333}</style>
+</head>
+<body>
+  <div>
+    <p>Redirecting to the player… If you are not redirected, <a id="link" href="/audio-player1/">click here</a>.</p>
+  </div>
+  <script>
+    // JavaScript redirect (works in most clients). Edit this file in the repo to change the target.
+    (function(){
+      try{
+        var target = 'https://drumsick.github.io/audio-player1/';
+        // For Pages root hosting, ensure absolute URL
+        window.location.replace(target);
+      }catch(e){
+        var a = document.getElementById('link'); a.href = '/audio-player1/';
+      }
+    })();
+  </script>
+</body>
+</html>
